@@ -1,0 +1,19 @@
+{
+    "port":"/dev/ttyUSB0",
+    "baud":9600,
+
+    "mux0_A": 17,
+    "mux0_B": 27,
+
+    "mux1_A": 13,
+    "mux1_B": 12,
+
+    "mux2_A": 24,
+    "mux2_B": 25,
+
+    "mux3_A": 23,
+    "mux3_B": 22,
+
+    "mux4_A": 16,
+    "mux4_B": 26
+}
