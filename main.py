@@ -7,14 +7,8 @@ class Sensor_Controller:
     def __init__(self) -> None:
         with open('config.json', 'r') as config:
             config = json.load(config)
-            self.mux4_1 = Mux4(LED(config['mux1_A']), LED(config['mux1_B']))
-            self.mux4_2 = Mux4(LED(config['mux2_A']), LED(config['mux2_B']))
-            self.mux4_3 = Mux4(LED(config['mux3_A']), LED(config['mux3_B']))
-            self.mux4_4 = Mux4(LED(config['mux4_A']), LED(config['mux4_B']))
-            self.mux16 = Mux16(
-                LED(config['mux0_A']), LED(config['mux0_B']),
-                ch = [self.mux4_1, self.mux4_2, self.mux4_3, self.mux4_4]
-                )
+            self.mux_top = Mux16(LED(config['mux_top_A']), LED(config['mux_top_B']))
+            self.mux_bottom = Mux4(LED(config['mux_bottom_A']), LED(config['mux_bottom_B']))
             self.port = config['port']
             self.baud = config['baud']
 
@@ -29,7 +23,8 @@ class Sensor_Controller:
             ch = int(ser.readline().decode().strip())
             if ch in range(16):
                 try:
-                    self.mux16.select(ch)
+                    self.mux_top.select(ch)
+                    self.mux_bottom.select(ch % 4)
                     sleep(0.5)
                     ser.write(f'ok {ch}'.encode())
                 except Exception as e:
