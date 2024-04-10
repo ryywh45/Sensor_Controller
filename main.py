@@ -19,20 +19,30 @@ class Sensor_Controller:
             sys.stderr.write(f'Could not open {self.port}: {e}\n')
             sys.exit(1)
 
+        print('Start listening')
         while True:
-            ch = int(ser.readline().decode().strip())
+            try:
+                ch = int(ser.readline().decode().strip())
+            except ValueError as e:
+                ser.flush()
+                sys.stderr.write(f'Invalid input: {e}\n')
+                ser.write(f'Invalid input: {e}\n'.encode())
+                continue
+        
+            print(f'receive {ch}')
             if ch in range(16):
                 try:
                     self.mux_top.select(ch)
                     self.mux_bottom.select(ch % 4)
                     sleep(0.5)
+                    print('ack: ok')
                     ser.write(f'ok {ch}'.encode())
                 except Exception as e:
-                    sys.stderr.write(f'Select ch{ch} failed: {e}')
-                    ser.write(f'Select ch{ch} failed: {e}'.encode())
+                    sys.stderr.write(f'Select ch{ch} failed: {e}\n')
+                    ser.write(f'Select ch{ch} failed: {e}\n'.encode())
             else:
-                sys.stderr.write('ch number out of range')
-                ser.write(b'ch number out of range')
+                sys.stderr.write('ch number out of range\n')
+                ser.write(b'ch number out of range\n')
 
 
 if __name__ == '__main__':
