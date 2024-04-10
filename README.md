@@ -1,7 +1,9 @@
 # Sensor_Controller
 
-### Introduction
+## Introduction
 從serial接收0～15的數字，控制多工器切換到指定的channel。
+
+## 程式說明
 
 ### main.py
 主邏輯
