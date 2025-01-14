@@ -46,5 +46,8 @@ class Sensor_Controller:
 
 
 if __name__ == '__main__':
+    bug_pin = LED(24)
+    bug_pin.off()
+
     sensor_controller = Sensor_Controller()
     sensor_controller.run()
